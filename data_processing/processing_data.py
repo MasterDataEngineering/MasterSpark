@@ -1,20 +1,17 @@
-from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark.sql.functions import expr
 
-spark = SparkSession \
-    .builder \
-    .appName("Python Spark SQL basic example") \
-    .getOrCreate()
 
+# "s3://masterscraperbucket/data/test.parquet"
 
 class Rowprocessor:
 
-    def __init__(self,spark):
-        self.spark=spark
+    def __init__(self, spark, input_path):
+        self.spark = spark
+        self.input_path = input_path
 
     def get_data(self):
-        data = self.spark.read.parquet("s3://masterscraperbucket/data/test.parquet")
+        data = self.spark.read.parquet(self.input_path)
         return data
 
     def process_data(self, data):
@@ -32,4 +29,3 @@ class Rowprocessor:
             .drop(col("data")) \
             .drop(col("included"))
         return filtered_data
-
