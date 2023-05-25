@@ -18,5 +18,5 @@ processor = Rowprocessor(spark=spark, input_path=input_dir)
 
 dirty_data = processor.get_data()
 clean_data = processor.process_data(dirty_data)
-clean_data.coalesce(partitions).write.parquet("s3://masterscraperbucket/clean_data/")
+clean_data.coalesce(partitions).write.parquet(output_dir)
 
